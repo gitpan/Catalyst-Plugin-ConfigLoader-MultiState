@@ -2,8 +2,9 @@ package Catalyst::Plugin::ConfigLoader::MultiState;
 use parent qw/Class::Accessor::Grouped/;
 use strict;
 use Carp();
+use Storable();
 
-our $VERSION = 0.01;
+our $VERSION = 0.02;
 
 =head1 NAME
 
@@ -506,8 +507,7 @@ sub setup {
     }
 
     $stash->{home} = Path::Class::Dir->new($stash->{home});
-    my $initial_cfg = {};
-    Catalyst::Plugin::ConfigLoader::MultiState::Utils::merge_hash($initial_cfg, $stash); #clone
+    my $initial_cfg = Storable::dclone($stash);
     my $local = $class->path_to($self_cfg->{'local'} || 'local.conf');
     $local->touch unless -e $local;
 
