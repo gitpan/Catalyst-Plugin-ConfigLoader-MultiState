@@ -16,9 +16,11 @@ no_index:
     - inc
     - t
 requires:
-  Catalyst::Runtime: 5.7008
+  Catalyst::Runtime: 5.71
+  Class::Accessor::Grouped: 0
   File::Spec: 3.29
+  MRO::Compat: 0
   parent: 0
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.02
+version: 0.03
