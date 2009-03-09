@@ -4,7 +4,7 @@ use strict;
 use Carp();
 use Storable();
 
-our $VERSION = 0.03;
+our $VERSION = 0.04;
 
 =head1 NAME
 
@@ -549,7 +549,7 @@ sub setup {
 sub _config_execute {
     my ($class, $file, $ns, $stash, $state) = (shift, shift, shift, shift, shift);
 
-    my $pkg = $file; $pkg =~ tr!-/.~\!@#$%^&*()+\\!_!;
+    my $pkg = $file; $pkg =~ tr!-/.~\!@#$%^&*()+\\:!_!;
     $pkg = 'Catalyst::Plugin::ConfigLoader::MultiState::Package::'.lc($class).'::'.$pkg;
 
     $ns = [@$ns];
