@@ -29,3 +29,5 @@ is($cfg->{test_deep_to_root}, 10);
 
 isa_ok($cfg->{'Plugin::Pizda'}, 'HASH');
 is_deeply($cfg->{'Plugin::Pizda'}{pizdec_nahuy}, [9,8,7]);
+
+is($cfg->{'Embed::Module'}{test}, 100);

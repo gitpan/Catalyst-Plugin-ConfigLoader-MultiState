@@ -4,7 +4,7 @@ use strict;
 use Carp();
 use Storable();
 
-our $VERSION = 0.04;
+our $VERSION = 0.05;
 
 =head1 NAME
 
@@ -215,6 +215,13 @@ For example Plugin-Authentication.conf:
     $default_realm = 'myrealm';
     $realms = {
         ....
+    };
+
+To embed plugin's config into any root ns file write __ instead of ::
+
+    $Plugin__Authentication = {
+        default_realm => 'myrealm',
+        realms        => {...},
     };
 
 =head1 Accessing variables from other config files
@@ -668,8 +675,9 @@ sub _config_execute {
         next if $key eq 'BEGIN' or $key eq 'DESTROY' or $key eq 'AUTOLOAD' or
                 $key =~ /^__ANON__\[/;
         my $val = ${"${pkg}::$key"};
-        my $oldval = $local_stash->{$key};
         next if !defined $val and $key =~ /^(root|inline|module|r|u|l|p|rw|rewrite|can)$/;
+        $key =~ s/__/::/g if index($key, '__') > 0;
+        my $oldval = $local_stash->{$key};
         if (ref($val) eq 'HASH' and ref($oldval) eq 'HASH') {
             Catalyst::Plugin::ConfigLoader::MultiState::Utils::merge_hash($oldval, $val);
         }
