@@ -4,7 +4,7 @@ use strict;
 use Carp();
 use Storable();
 
-our $VERSION = 0.05;
+our $VERSION = 0.06;
 
 =head1 NAME
 
@@ -530,10 +530,12 @@ sub setup {
     foreach my $group (@groups) {
         if (substr($group, 0, 1) eq '.') {
             substr($group, 0, 1, '');
-            push @list, @{$confs{$group}};
+            my $files = $confs{$group};
+            push @list, @$files if $files;
         }
         else {
-            push @list, $confs{rw}{$group};
+            my $file = $confs{rw}{$group};
+            push @list, $file if $file;
         }
     }
 
