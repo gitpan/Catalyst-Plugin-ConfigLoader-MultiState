@@ -4,7 +4,7 @@ use strict;
 use Carp();
 use Storable();
 
-our $VERSION = 0.06;
+our $VERSION = 0.07;
 
 =head1 NAME
 
@@ -468,6 +468,13 @@ This method has been added for compability.
 
 =back
 
+=head1 Defaults
+
+    You can predefine defaults for config in ->config->{'Plugin::ConfigLoader::MultiState'}{defaults}.
+    Variables from 'defaults' will be visible in config but won't override resulting values.
+
+=back
+
 =head1 Startup perfomance
 
     It takes about 30ms to initialize config system with 25 files (25kb summary)
@@ -514,7 +521,9 @@ sub setup {
     }
 
     $stash->{home} = Path::Class::Dir->new($stash->{home});
+    my $defaults = delete $stash->{'Plugin::ConfigLoader::MultiState'}{defaults};
     my $initial_cfg = Storable::dclone($stash);
+    Catalyst::Plugin::ConfigLoader::MultiState::Utils::merge_hash($stash, $defaults) if $defaults;
     my $local = $class->path_to($self_cfg->{'local'} || 'local.conf');
     $local->touch unless -e $local;
 
