@@ -4,7 +4,7 @@ use strict;
 use Carp();
 use Storable();
 
-our $VERSION = 0.07;
+our $VERSION = 0.08;
 
 =head1 NAME
 
@@ -472,8 +472,6 @@ This method has been added for compability.
 
     You can predefine defaults for config in ->config->{'Plugin::ConfigLoader::MultiState'}{defaults}.
     Variables from 'defaults' will be visible in config but won't override resulting values.
-
-=back
 
 =head1 Startup perfomance
 
